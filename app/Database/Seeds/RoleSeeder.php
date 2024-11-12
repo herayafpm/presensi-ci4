@@ -22,6 +22,8 @@ class RoleSeeder extends Seeder
                     'delete_user',
                     'restore_user',
                     'purge_user',
+                    'assign_user_role',
+                    'assign_user_permission',
                     // User
                     // Roles
                     'list_roles',
@@ -30,8 +32,7 @@ class RoleSeeder extends Seeder
                     'delete_role',
                     'restore_role',
                     'purge_role',
-                    'assign_user_role',
-                    'release_user_role',
+                    'assign_role_permission',
                     // Roles
                     // Permissions
                     'list_permissions',
@@ -40,10 +41,6 @@ class RoleSeeder extends Seeder
                     'delete_permission',
                     'restore_permission',
                     'purge_permission',
-                    'assign_role_permission',
-                    'release_role_permission',
-                    'assign_user_permission',
-                    'release_user_permission',
                     // Permissions
                     // Employee
                     'list_employees',

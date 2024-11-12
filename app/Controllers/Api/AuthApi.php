@@ -29,10 +29,10 @@ class AuthApi extends BaseApi
         $input = $this->request->getJSON();
         if (!$this->validate($rules)) {
             return $this->respond([
-                'status' => '44',
+                'rc' => '44',
                 'message' => "Username / Password Salah",
                 'data' => []
-            ], 200);
+            ], 404);
         }
         if ($this->_auth->attempt($input)) {
             $message = $this->_auth->message;
@@ -47,16 +47,16 @@ class AuthApi extends BaseApi
                 ])
             ];
             return $this->respond([
-                'status' => '00',
+                'rc' => '00',
                 'message' => $message,
                 'data' => $resdata
             ], 200);
         } else {
             $message = $this->_auth->message;
             return $this->respond([
-                'status' => '40',
+                'rc' => '40',
                 'message' => $message
-            ], 200);
+            ], 400);
         }
     }
 
@@ -84,25 +84,25 @@ class AuthApi extends BaseApi
         ];
         if (!$this->validate($rules)) {
             return $this->respond([
-                'status' => '40',
+                'rc' => '40',
                 'message' => "Validasi Gagal",
                 'data' => $this->validator->getErrors()
-            ], 200);
+            ], 400);
         }
         $input = $this->request->getJSON();
         $user = model(UserModel::class)->where(['email' => $input['email']])->first();
         if (!$user) {
             return $this->respond([
-                'status' => '44',
+                'rc' => '44',
                 'message' => 'User Tidak Ditemukan',
-            ], 200);
+            ], 404);
         }
         $throttler = Services::throttler();
         if ($throttler->check(md5($this->request->getIPAddress() . "_forgotpass"), 1, MINUTE) === false) {
             return $this->respond([
-                'status' => '43',
+                'rc' => '43',
                 'message' => 'Silahkan Tunggu ' . $throttler->getTokentime() . ' detik untuk Meminta Request Kembali',
-            ], 200);
+            ], 403);
         }
         $token = $this->getRandomInt(6);
         model(UserResetPasswordModel::class)->where(['email' => $user['email']])->delete();
@@ -113,7 +113,7 @@ class AuthApi extends BaseApi
             'sended' => 0,
         ]);
         return $this->respond([
-            'status' => '00',
+            'rc' => '00',
             'message' => 'Berhasil Dikirimkan, Silahkan Cek di Inbox Email atau di Spam',
         ], 200);
     }
@@ -136,7 +136,7 @@ class AuthApi extends BaseApi
                 'status' => '40',
                 'message' => "Validasi Gagal",
                 'data' => $this->validator->getErrors()
-            ], 200);
+            ], 400);
         }
         $input = $this->request->getJSON();
         $user = model(UserModel::class)->where(['email' => $input['email']])->first();
@@ -144,27 +144,27 @@ class AuthApi extends BaseApi
             return $this->respond([
                 'status' => '44',
                 'message' => 'User Tidak Ditemukan',
-            ], 200);
+            ], 404);
         }
         $user_reset = model(UserResetPasswordModel::class)->where(['email' => $input['email']])->first();
         if (!$user_reset) {
             return $this->respond([
                 'status' => '44',
                 'message' => 'Anda belum melakukan reset kata sandi',
-            ], 200);
+            ], 404);
         }
         $throttler = Services::throttler();
         if ($throttler->check(md5($this->request->getIPAddress() . "_forgotpass_code"), 3, MINUTE) === false) {
             return $this->respond([
                 'status' => '43',
                 'message' => 'Permintaan Terlalu Banyak, Silahkan Tunggu ' . $throttler->getTokentime() . ' detik.',
-            ], 200);
+            ], 403);
         }
         if ($user_reset['code'] != $input['code']) {
             return $this->respond([
                 'status' => '44',
                 'message' => 'Kode yang dimasukkan salah',
-            ], 200);
+            ], 404);
         }
         return $this->respond([
             'status' => '00',
@@ -198,7 +198,7 @@ class AuthApi extends BaseApi
                 'status' => '40',
                 'message' => "Validasi Gagal",
                 'data' => $this->validator->getErrors()
-            ], 200);
+            ], 400);
         }
         $input = $this->request->getJSON();
         $user = model(UserModel::class)->where(['email' => $input['email']])->first();
@@ -206,27 +206,27 @@ class AuthApi extends BaseApi
             return $this->respond([
                 'status' => '44',
                 'message' => 'User Tidak Ditemukan',
-            ], 200);
+            ], 404);
         }
         $user_reset = model(UserResetPasswordModel::class)->where(['email' => $input['email']])->first();
         if (!$user_reset) {
             return $this->respond([
                 'status' => '44',
                 'message' => 'Anda belum melakukan proses awal reset kata sandi',
-            ], 200);
+            ], 404);
         }
         $throttler = Services::throttler();
         if ($throttler->check(md5($this->request->getIPAddress() . "_forgotpass_code"), 3, MINUTE) === false) {
             return $this->respond([
                 'status' => '43',
                 'message' => 'Permintaan Terlalu Banyak, Silahkan Tunggu ' . $throttler->getTokentime() . ' detik.',
-            ], 200);
+            ], 403);
         }
         if ($user_reset['code'] != $input['code']) {
             return $this->respond([
-                'status' => '44',
+                'status' => '40',
                 'message' => 'Kode yang dimasukkan salah',
-            ], 200);
+            ], 400);
         }
         db_connect()->transBegin();
         $set = [
@@ -240,7 +240,7 @@ class AuthApi extends BaseApi
             return $this->respond([
                 'status' => '40',
                 'message' => "Gagal Mengubah Kata Sandi"
-            ], 200);
+            ], 400);
         } else {
             db_connect()->transCommit();
 
