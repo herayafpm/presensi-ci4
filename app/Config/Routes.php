@@ -69,6 +69,7 @@ $routes->group('',['namespace' => 'App\Controllers\Api','filters' => 'auth'],fun
                 $routes->group('(:segment)',function($routes){
                     $routes->get('','AdminMasterEmployeeApi::detail_data/$1',['filters' => 'auth:list_employees']);
                     $routes->post('update','AdminMasterEmployeeApi::update_data/$1',['filters' => 'auth:update_employee']);
+                    $routes->post('update_password','AdminMasterEmployeeApi::update_password_data/$1',['filters' => 'auth:update_password_employee']);
                     $routes->post('delete','AdminMasterEmployeeApi::delete_data/$1',['filters' => 'auth:delete_employee']);
                     $routes->post('restore','AdminMasterEmployeeApi::restore_data/$1',['filters' => 'auth:restore_employee']);
                     $routes->post('purge','AdminMasterEmployeeApi::purge_data/$1',['filters' => 'auth:purge_employee']);
@@ -81,7 +82,9 @@ $routes->group('',['namespace' => 'App\Controllers\Api','filters' => 'auth'],fun
                     $routes->get('','AdminMasterUserApi::detail_data/$1',['filters' => 'auth:list_users']);
                     $routes->post('assign_role','AdminMasterUserApi::assign_role_data/$1',['filters' => 'auth:assign_user_role']);
                     $routes->post('assign_permission','AdminMasterUserApi::assign_permission_data/$1',['filters' => 'auth:assign_user_permission']);
+                    $routes->post('assign_permission_denied','AdminMasterUserApi::assign_permission_denied_data/$1',['filters' => 'auth:assign_user_permission']);
                     $routes->post('update','AdminMasterUserApi::update_data/$1',['filters' => 'auth:update_user']);
+                    $routes->post('update_password','AdminMasterUserApi::update_password_data/$1',['filters' => 'auth:update_password_user']);
                     $routes->post('delete','AdminMasterUserApi::delete_data/$1',['filters' => 'auth:delete_user']);
                     $routes->post('restore','AdminMasterUserApi::restore_data/$1',['filters' => 'auth:restore_user']);
                     $routes->post('purge','AdminMasterUserApi::purge_data/$1',['filters' => 'auth:purge_user']);

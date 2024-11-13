@@ -19,6 +19,7 @@ class RoleSeeder extends Seeder
                     'list_users',
                     'add_user',
                     'update_user',
+                    'update_password_user',
                     'delete_user',
                     'restore_user',
                     'purge_user',
@@ -46,6 +47,7 @@ class RoleSeeder extends Seeder
                     'list_employees',
                     'add_employee',
                     'update_employee',
+                    'update_password_employee',
                     'delete_employee',
                     'restore_employee',
                     'purge_employee',
@@ -86,6 +88,7 @@ class RoleSeeder extends Seeder
                     'list_employees',
                     'add_employee',
                     'update_employee',
+                    'update_password_employee',
                     'delete_employee',
                     'restore_employee',
                     'purge_employee',
@@ -118,6 +121,10 @@ class RoleSeeder extends Seeder
             ],
             [
                 'role_name' => 'User',
+                'permissions' => []
+            ],
+            [
+                'role_name' => 'Employee',
                 'permissions' => [
                     'list_me_worktimes',
                     'add_me_presence'

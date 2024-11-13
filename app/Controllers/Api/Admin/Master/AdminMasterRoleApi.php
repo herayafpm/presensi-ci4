@@ -61,7 +61,7 @@ class AdminMasterRoleApi extends BaseApi
                 'message' => "Data Role Tidak Ditemukan"
             ], 404);
         }
-        $role['permissions'] = model(RoleHasPermissionModel::class)->where(['role_id' => $role['role_id']])->findAll();
+        $role['permissions'] = model(RoleHasPermissionModel::class)->select('permissions.permission_name')->join('permissions','role_has_permissions.permission_id = permissions.permission_id')->where(['role_id' => $role['role_id']])->findAll();
         return $this->respond([
             'status' => '00',
             'message' => "Berhasil Mengambil Data Role",

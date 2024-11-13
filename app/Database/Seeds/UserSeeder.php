@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 'username' => 'karyawan1',
                 'email' => 'karyawan1@test.com',
                 'name' => 'Karyawan 1',
-                'roles' => ['User'],
+                'roles' => ['User','Employee'],
                 'employee' => [
                     'gender' => 'L',
                     'datebirth' => '2000-01-01',
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 'username' => 'karyawan2',
                 'email' => 'karyawan2@test.com',
                 'name' => 'Karyawan 2',
-                'roles' => ['User'],
+                'roles' => ['User','Employee'],
                 'employee' => [
                     'gender' => 'L',
                     'datebirth' => '2000-01-01',
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
                 'username' => 'karyawan3',
                 'email' => 'karyawan3@test.com',
                 'name' => 'Karyawan 3',
-                'roles' => ['User'],
+                'roles' => ['User','Employee'],
                 'employee' => [
                     'gender' => 'L',
                     'datebirth' => '2000-01-01',
